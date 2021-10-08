@@ -14,11 +14,11 @@ getIntegerRandomNumber(1, 2);
 
 function getIntegerRandomNumberZero (min, max) {
   if (min >= 0 && min < max) {
-    const number = Math.round(Math.random() * (max-min)+min);
-    if (number === max) {
-      return number;
+    const NUMBER = Math.round(Math.random() * (max-min)+min);
+    if (NUMBER === max) {
+      return NUMBER;
     }
-    return `0${  number}`;
+    return `0${  NUMBER}`;
   }
   return 'Неверно задан диапозон';
 }
@@ -30,11 +30,11 @@ getIntegerRandomNumberZero(1, 10);
 
 function getFractionalRandomNumber (min, max, numberSigns) {
   if (min >= 0 && min < max) {
-    const number = Math.random() * (max-min)+min;
+    const NUMBER = Math.random() * (max-min)+min;
     if (numberSigns > 0) {
-      return  number.toFixed(numberSigns);
+      return NUMBER.toFixed(numberSigns);
     }
-    return  number;
+    return NUMBER;
   }
   return 'Неверно задан диапозон';
 }
@@ -44,7 +44,7 @@ getFractionalRandomNumber(0, 1.2, 2);
 
 // Функция для получения случайного элемента из массива
 
-const type = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const types = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const checkin = ['12:00', '13:00', '14:00'];
 const checkout = ['12:00', '13:00', '14:00'];
 const features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -71,4 +71,4 @@ const getRandomArray = (characteristic) => {
   return array;
 };
 
-export {type, checkin, checkout, features, photos, randomValue, getRandomArray, getIntegerRandomNumber, getIntegerRandomNumberZero, getFractionalRandomNumber};
+export {types, checkin, checkout, features, photos, randomValue, getRandomArray, getIntegerRandomNumber, getIntegerRandomNumberZero, getFractionalRandomNumber};
