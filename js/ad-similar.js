@@ -1,4 +1,3 @@
-import './create-random-value.js';
 import {types, checkin, checkout, features, photos, randomValue, getRandomArray, getIntegerRandomNumber, getIntegerRandomNumberZero, getFractionalRandomNumber} from './create-random-value.js';
 
 // Функция для создания сгенерированных JS-объектов

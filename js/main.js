@@ -1,4 +1,3 @@
-import './ad-similar.js';
 import {adSimilar} from './ad-similar.js';
 
 //  Создание массива из 10 сгенерированных JS-объектов
