@@ -1,4 +1,4 @@
-import {types, checkin, checkout, features, photos, randomValue, getRandomArray, getIntegerRandomNumber, getIntegerRandomNumberZero, getFractionalRandomNumber} from './create-random-value.js';
+import {types, checkin, checkout, features, photosData, randomValue, getRandomArray, getIntegerRandomNumber, getIntegerRandomNumberZero, getFractionalRandomNumber} from './create-random-value.js';
 
 // Функция для создания сгенерированных JS-объектов
 
@@ -9,7 +9,7 @@ const adSimilar = {
   offer: {
     title: 'Отличный вариант',
     address: `Адрес: широта/долгота - ${getFractionalRandomNumber(35.65000, 35.70000, 5)} / ${getFractionalRandomNumber(139.70000, 139.80000, 5)}`,
-    price: getIntegerRandomNumber(5000, 500000),
+    price: getIntegerRandomNumber(2000, 50000),
     type: randomValue(types),
     rooms: getIntegerRandomNumber(1, 5),
     quests: getIntegerRandomNumber(1, 5),
@@ -17,7 +17,7 @@ const adSimilar = {
     checkout: randomValue(checkout),
     features: getRandomArray(features),
     description: 'Сдаётся жильё. Сделан качественный ремонт, есть вся необходимая мебель и бытовая техника. Всё для вашего комфортного проживания.',
-    photos: getRandomArray(photos),
+    photos: getRandomArray(photosData),
   },
   location: {
     lat: `Широта ${  getFractionalRandomNumber(35.65000, 35.70000, 5)}`,
