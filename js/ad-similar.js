@@ -1,4 +1,4 @@
-import {types, checkin, checkout, features, photosData, randomValue, getRandomArray, getIntegerRandomNumber, getIntegerRandomNumberZero, getFractionalRandomNumber} from './create-random-value.js';
+import {types, checkin, checkout, dataFeatures, dataPhotos, randomValue, getRandomArray, getIntegerRandomNumber, getIntegerRandomNumberZero, getFractionalRandomNumber} from './create-random-value.js';
 
 // Функция для создания сгенерированных JS-объектов
 
@@ -15,9 +15,9 @@ const adSimilar = {
     quests: getIntegerRandomNumber(1, 5),
     checkin: randomValue(checkin),
     checkout: randomValue(checkout),
-    features: getRandomArray(features),
+    features: getRandomArray(dataFeatures),
     description: 'Сдаётся жильё. Сделан качественный ремонт, есть вся необходимая мебель и бытовая техника. Всё для вашего комфортного проживания.',
-    photos: getRandomArray(photosData),
+    photos: getRandomArray(dataPhotos),
   },
   location: {
     lat: `Широта ${  getFractionalRandomNumber(35.65000, 35.70000, 5)}`,

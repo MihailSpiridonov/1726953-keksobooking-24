@@ -1,5 +1,5 @@
 import {adSimilar} from './ad-similar.js';
-import {photosData} from './create-random-value.js';
+import {dataPhotos, dataFeatures} from './create-random-value.js';
 
 
 // Копируем шаблон карточки с объявлением из template
@@ -33,27 +33,33 @@ const fillTemplate = function () {
   time ? time.textContent = `Заезд после ${  adSimilar.offer.checkin  }, выезд до ${  adSimilar.offer.checkout}` : time.remove();
 
   const features = document.querySelector('.popup__features');
-  if (!features) {
-    features.remove();
-  }
-
-  const feature = document.querySelectorAll('.popup__feature');
-  feature ? feature.textContent = adSimilar.offer.features : feature.remove();
+  const featureFragment = document.createDocumentFragment();
+  dataFeatures.forEach((dataFeature) => {
+    const feature = features.querySelector(`.popup__feature--${  dataFeature}`);
+    if (feature) {
+      featureFragment.append(feature);
+    }
+  });
+  features.innerHTML = '';
+  features.append(featureFragment);
 
   const description = document.querySelector('.popup__description');
   description ? description.textContent = adSimilar.offer.description : description.remove();
 
   const photos = document.querySelector('.popup__photos');
   const photo = document.querySelectorAll('.popup__photo');
-  if (!photos) {
+  if (dataPhotos.length < 1) {
     photos.remove();
   } else {
-    if (photos.children.length > 1) {
-      for (let i=0; i<photosData.length; i++) {
-        photo[i].src = photosData[i];
-      }
+    if (dataPhotos.length === 1) {
+      photo[0].src = dataPhotos[0];
     } else {
-      photo[0].src = photosData[0];
+      for (let i=0; i<dataPhotos.length; i++) {
+        const offerPhoto = photo[0].cloneNode(true);
+        photo[0].remove();
+        offerPhoto.src = dataPhotos[i];
+        photos.appendChild(offerPhoto);
+      }
     }
   }
 };
