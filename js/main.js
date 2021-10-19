@@ -2,7 +2,10 @@ import {adSimilar} from './ad-similar.js';
 import {fillTemplate} from './offer.js';
 
 
-fillTemplate ();
+// Вызов функции для наполнение шаблона данными
+fillTemplate();
+
+
 //  Создание массива из 10 сгенерированных JS-объектов
 const serverData = [];
 

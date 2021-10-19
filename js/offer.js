@@ -1,5 +1,4 @@
 import {adSimilar} from './ad-similar.js';
-import {dataPhotos, dataFeatures} from './create-random-value.js';
 
 
 // Копируем шаблон карточки с объявлением из template
@@ -34,7 +33,7 @@ const fillTemplate = function () {
 
   const features = document.querySelector('.popup__features');
   const featureFragment = document.createDocumentFragment();
-  dataFeatures.forEach((dataFeature) => {
+  adSimilar.offer.features.forEach((dataFeature) => {
     const feature = features.querySelector(`.popup__feature--${  dataFeature}`);
     if (feature) {
       featureFragment.append(feature);
@@ -48,16 +47,16 @@ const fillTemplate = function () {
 
   const photos = document.querySelector('.popup__photos');
   const photo = document.querySelectorAll('.popup__photo');
-  if (dataPhotos.length < 1) {
+  if (adSimilar.offer.photos.length < 1) {
     photos.remove();
   } else {
-    if (dataPhotos.length === 1) {
-      photo[0].src = dataPhotos[0];
+    if (adSimilar.offer.photos.length === 1) {
+      photo[0].src = adSimilar.offer.photos[0];
     } else {
-      for (let i=0; i<dataPhotos.length; i++) {
+      for (let i=0; i<adSimilar.offer.photos.length; i++) {
         const offerPhoto = photo[0].cloneNode(true);
         photo[0].remove();
-        offerPhoto.src = dataPhotos[i];
+        offerPhoto.src = adSimilar.offer.photos[i];
         photos.appendChild(offerPhoto);
       }
     }
