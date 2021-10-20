@@ -10,7 +10,7 @@ fillTemplate();
 const serverData = [];
 
 for (let index=0; index<10; index++) {
-  serverData.push(getAdSimilar);
+  serverData.push(getAdSimilar());
 }
 
 serverData;
