@@ -44,11 +44,17 @@ getFractionalRandomNumber(0, 1.2, 2);
 
 // Функция для получения случайного элемента из массива
 
-const types = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const flat = 'Квартира';
+const bungalow = 'Бунгало';
+const house = 'Дом';
+const palace = 'Дворец';
+const hotel = 'Отель';
+
+const types = [palace, flat, house, bungalow, hotel];
 const checkin = ['12:00', '13:00', '14:00'];
 const checkout = ['12:00', '13:00', '14:00'];
-const features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const photos = ['https//assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
+const dataFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const dataPhotos = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
 
 const randomValue = (characteristic) => characteristic[getIntegerRandomNumber(0, characteristic.length-1)];
 
@@ -71,4 +77,4 @@ const getRandomArray = (characteristic) => {
   return array;
 };
 
-export {types, checkin, checkout, features, photos, randomValue, getRandomArray, getIntegerRandomNumber, getIntegerRandomNumberZero, getFractionalRandomNumber};
+export {types, checkin, checkout, dataFeatures, dataPhotos, randomValue, getRandomArray, getIntegerRandomNumber, getIntegerRandomNumberZero, getFractionalRandomNumber};
