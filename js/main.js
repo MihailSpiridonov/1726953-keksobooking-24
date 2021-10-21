@@ -1,5 +1,6 @@
 import {getAdSimilar} from './ad-similar.js';
 import {fillTemplate} from './offer.js';
+import {deActivePage, activePage} from './page-status.js';
 
 
 // Вызов функции для наполнение шаблона данными
@@ -14,3 +15,11 @@ for (let index=0; index<10; index++) {
 }
 
 serverData;
+
+
+//Вызов функции для перевода страницы в неактивное состояние
+deActivePage ();
+
+
+//Вызов функции для перевода страницы в активное состояние
+activePage ();
