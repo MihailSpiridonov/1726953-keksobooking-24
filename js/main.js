@@ -1,6 +1,7 @@
 import {getAdSimilar} from './ad-similar.js';
 import {fillTemplate} from './offer.js';
 import {deActivePage, activePage} from './page-status.js';
+import {form} from './form-validation.js';
 
 
 // Вызов функции для наполнение шаблона данными
@@ -23,3 +24,6 @@ deActivePage ();
 
 //Вызов функции для перевода страницы в активное состояние
 activePage ();
+
+
+form.reportValidity();
