@@ -26,4 +26,4 @@ deActivePage ();
 activePage ();
 
 
-form.reportValidity();
+form;
