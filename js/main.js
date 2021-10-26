@@ -26,4 +26,5 @@ deActivePage ();
 activePage ();
 
 
+//Вызов валидации при отправке формы
 form;
