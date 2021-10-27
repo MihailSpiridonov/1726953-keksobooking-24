@@ -1,7 +1,7 @@
 import {getAdSimilar} from './ad-similar.js';
 import {fillTemplate} from './offer.js';
 import {deActivePage, activePage} from './page-status.js';
-import {form} from './form-validation.js';
+import {getValidityForm} from './form-validation.js';
 
 
 // Вызов функции для наполнение шаблона данными
@@ -26,5 +26,5 @@ deActivePage ();
 activePage ();
 
 
-//Вызов валидации при отправке формы
-form;
+//Вызов функции валидации формы
+getValidityForm();
