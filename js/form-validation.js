@@ -87,12 +87,12 @@ const validateTypeSelect = () => {
 
 // Функции для валидации select "«Количество комнат» и «количество мест»"
 const validateSelectTime = (selectOne, selectTwo) => {
-  const valueSelect = selectOne.value;
-  const itemsSelect = selectOne.children;
+  const value = selectOne.value;
+  const items = selectOne.children;
 
-  for (let i=0; i<itemsSelect.length; i++) {
-    if (valueSelect === itemsSelect[i].value) {
-      selectTwo.value = itemsSelect[i].value;
+  for (let i=0; i<items.length; i++) {
+    if (value === items[i].value) {
+      selectTwo.value = items[i].value;
     }
   }
 };
