@@ -55,9 +55,9 @@ const validateTitleLength = () => {
 
 
 // Функция для добавления атрибутов
-const addAttributes = (nameAttribute) => {
-  priceInput.setAttribute('min', nameAttribute);
-  priceInput.setAttribute('placeholder', nameAttribute);
+const addAttributes = (attributeValue) => {
+  priceInput.setAttribute('min', attributeValue);
+  priceInput.setAttribute('placeholder', attributeValue);
 };
 
 
@@ -65,42 +65,44 @@ const addAttributes = (nameAttribute) => {
 const validateTypeSelect = () => {
   const valueType = typeSelect.value;
 
-  if (valueType === 'bungalow') {
-    addAttributes(MIN_BUNGALOW);
-  } else if (valueType === 'flat') {
-    addAttributes(MIN_FLAT);
-  } else if (valueType === 'hotel') {
-    addAttributes(MIN_HOTEL);
-  } else if (valueType === 'house') {
-    addAttributes(MIN_HOUSE);
-  } else if (valueType === 'palace') {
-    addAttributes(MIN_PALASE);
+  switch (valueType) {
+    case 'bungalow':
+      addAttributes(MIN_BUNGALOW);
+      break;
+    case 'flat':
+      addAttributes(MIN_FLAT);
+      break;
+    case 'hotel':
+      addAttributes(MIN_HOTEL);
+      break;
+    case 'house':
+      addAttributes(MIN_HOUSE);
+      break;
+    case 'palace':
+      addAttributes(MIN_PALASE);
+      break;
   }
 };
 
 
 // Функции для валидации select "«Количество комнат» и «количество мест»"
-const validateSelectTimeIn = () => {
-  const valueTimein = timeinSelect.value;
-  const itemsTimein = timeinSelect.children;
+const validateSelectTime = (selectOne, selectTwo) => {
+  const valueSelect = selectOne.value;
+  const itemsSelect = selectOne.children;
 
-  for (let i=0; i<itemsTimein.length; i++) {
-    if (valueTimein === itemsTimein[i].value) {
-      timeoutSelect.value = itemsTimein[i].value;
+  for (let i=0; i<itemsSelect.length; i++) {
+    if (valueSelect === itemsSelect[i].value) {
+      selectTwo.value = itemsSelect[i].value;
     }
   }
 };
 
+const validateSelectTimein = () => {
+  validateSelectTime(timeinSelect, timeoutSelect);
+};
 
-const validateSelectTimeOut = () => {
-  const valueTimeout = timeoutSelect.value;
-  const itemsTimeout = timeoutSelect.children;
-
-  for (let i=0; i<itemsTimeout.length; i++) {
-    if (valueTimeout === itemsTimeout[i].value) {
-      timeinSelect.value = itemsTimeout[i].value;
-    }
-  }
+const validateSelectTimeout = () => {
+  validateSelectTime(timeoutSelect, timeinSelect);
 };
 
 
@@ -117,8 +119,8 @@ const setFormValidation = () => {
   typeSelect.addEventListener('change', validateTypeSelect);
 
   // Синхронизация полей «Время заезда» и поля «Время выезда»
-  timeinSelect.addEventListener('change', validateSelectTimeIn);
-  timeoutSelect.addEventListener('change', validateSelectTimeOut);
+  timeinSelect.addEventListener('change', validateSelectTimein);
+  timeoutSelect.addEventListener('change', validateSelectTimeout);
 };
 
 
