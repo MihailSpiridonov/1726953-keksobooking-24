@@ -3,13 +3,16 @@ import {types, checkin, checkout, dataFeatures, dataPhotos, randomValue, getRand
 
 // Функция для создания сгенерированных JS-объектов
 const getAdSimilar = function (adSimilar) {
+  const lat = getFractionalRandomNumber(35.65000, 35.70000, 5);
+  const lng = getFractionalRandomNumber(139.70000, 139.80000, 5);
+
   adSimilar = {
     author: {
       avatar: `img/avatars/user${getIntegerRandomNumberZero(1, 10)}.png`,
     },
     offer: {
       title: 'Отличный вариант',
-      address: `Адрес: широта/долгота - ${getFractionalRandomNumber(35.65000, 35.70000, 5)} / ${getFractionalRandomNumber(139.70000, 139.80000, 5)}`,
+      address: `Адрес: широта/долгота - ${lat} / ${lng}`,
       price: getIntegerRandomNumber(2000, 50000),
       type: randomValue(types),
       rooms: getIntegerRandomNumber(1, 5),
@@ -21,8 +24,8 @@ const getAdSimilar = function (adSimilar) {
       photos: getRandomArray(dataPhotos),
     },
     location: {
-      lat: `Широта ${  getFractionalRandomNumber(35.65000, 35.70000, 5)}`,
-      lng: `Долгота ${  getFractionalRandomNumber(139.70000, 139.80000, 5)}`,
+      lat: lat,
+      lng: lng,
     },
   };
 
@@ -30,4 +33,11 @@ const getAdSimilar = function (adSimilar) {
 };
 
 
-export {getAdSimilar};
+//  Создание массива из 10 сгенерированных JS-объектов
+const serverDatas = [];
+for (let i=0; i<10; i++) {
+  serverDatas.push(getAdSimilar());
+}
+
+
+export {getAdSimilar, serverDatas};

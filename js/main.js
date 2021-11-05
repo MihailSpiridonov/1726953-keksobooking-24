@@ -1,30 +1,10 @@
-import {getAdSimilar} from './ad-similar.js';
-import {fillTemplate} from './offer.js';
-import {deActivePage, activePage} from './page-status.js';
 import {setFormValidation} from './form-validation.js';
-
-
-// Вызов функции для наполнение шаблона данными
-fillTemplate();
-
-
-//  Создание массива из 10 сгенерированных JS-объектов
-const serverData = [];
-
-for (let index=0; index<10; index++) {
-  serverData.push(getAdSimilar());
-}
-
-serverData;
-
-
-//Вызов функции для перевода страницы в неактивное состояние
-deActivePage ();
-
-
-//Вызов функции для перевода страницы в активное состояние
-activePage ();
+import {map} from './map.js';
 
 
 //Вызов функции валидации формы
 setFormValidation();
+
+
+//Добавление карты на страницу
+map;
