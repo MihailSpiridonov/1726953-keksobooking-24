@@ -1,40 +1,36 @@
-import {getAdSimilar} from './ad-similar.js';
-
-getAdSimilar;
-
-// Копируем шаблон карточки с объявлением из template
-const mapCanvas = document.querySelector('.map__canvas');
-const offerCard = document.querySelector('#card');
-const card = offerCard.content.cloneNode(true);
-mapCanvas.appendChild(card);
+// Достаем шаблон карточки с объявлением из template
+const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 
 // Функция для наполнение шаблона данными
-const fillTemplate = function () {
-  const avatar = document.querySelector('.popup__avatar');
-  avatar ? avatar.src = getAdSimilar().author.avatar : avatar.remove();
+const fillTemplate = (serverData) => {
+  // Копируем шаблон карточки
+  const popup = popupTemplate.cloneNode(true);
 
-  const title = document.querySelector('.popup__title');
-  title ? title.textContent = getAdSimilar().offer.title : title.remove();
+  const avatar = popup.querySelector('.popup__avatar');
+  avatar ? avatar.src = serverData.author.avatar : avatar.remove();
 
-  const address = document.querySelector('.popup__text--address');
-  address ? address.textContent = getAdSimilar().offer.address : address.remove();
+  const title = popup.querySelector('.popup__title');
+  title ? title.textContent = serverData.offer.title : title.remove();
 
-  const price = document.querySelector('.popup__text--price');
-  price ? price.textContent = `${getAdSimilar().offer.price  }₽/ночь` : price.remove();
+  const address = popup.querySelector('.popup__text--address');
+  address ? address.textContent = serverData.offer.address : address.remove();
 
-  const type = document.querySelector('.popup__type');
-  type ? type.textContent = getAdSimilar().offer.type : type.remove();
+  const price = popup.querySelector('.popup__text--price');
+  price ? price.textContent = `${serverData.offer.price  }₽/ночь` : price.remove();
 
-  const capacity = document.querySelector('.popup__text--capacity');
-  capacity ? capacity.textContent = `${getAdSimilar().offer.rooms  } комнаты для ${  getAdSimilar().offer.quests  } гостей` : capacity.remove();
+  const type = popup.querySelector('.popup__type');
+  type ? type.textContent = serverData.offer.type : type.remove();
 
-  const time = document.querySelector('.popup__text--time');
-  time ? time.textContent = `Заезд после ${  getAdSimilar().offer.checkin  }, выезд до ${  getAdSimilar().offer.checkout}` : time.remove();
+  const capacity = popup.querySelector('.popup__text--capacity');
+  capacity ? capacity.textContent = `${serverData.offer.rooms  } комнаты для ${  serverData.offer.quests  } гостей` : capacity.remove();
 
-  const features = document.querySelector('.popup__features');
+  const time = popup.querySelector('.popup__text--time');
+  time ? time.textContent = `Заезд после ${  serverData.offer.checkin  }, выезд до ${  serverData.offer.checkout}` : time.remove();
+
+  const features = popup.querySelector('.popup__features');
   const featureFragment = document.createDocumentFragment();
-  getAdSimilar().offer.features.forEach((dataFeature) => {
+  serverData.offer.features.forEach((dataFeature) => {
     const feature = features.querySelector(`.popup__feature--${  dataFeature}`);
     if (feature) {
       featureFragment.append(feature);
@@ -43,25 +39,26 @@ const fillTemplate = function () {
   features.innerHTML = '';
   features.append(featureFragment);
 
-  const description = document.querySelector('.popup__description');
-  description ? description.textContent = getAdSimilar().offer.description : description.remove();
+  const description = popup.querySelector('.popup__description');
+  description ? description.textContent = serverData.offer.description : description.remove();
 
-  const photos = document.querySelector('.popup__photos');
-  const photo = document.querySelectorAll('.popup__photo');
-  if (getAdSimilar().offer.photos.length < 1) {
+  const photos = popup.querySelector('.popup__photos');
+  const photo = popup.querySelectorAll('.popup__photo');
+  if (serverData.offer.photos.length < 1) {
     photos.remove();
   } else {
-    if (getAdSimilar().offer.photos.length === 1) {
-      photo[0].src = getAdSimilar().offer.photos[0];
+    if (serverData.offer.photos.length === 1) {
+      photo[0].src = serverData.offer.photos[0];
     } else {
-      for (let i=0; i<getAdSimilar().offer.photos.length; i++) {
+      for (let i=0; i<serverData.offer.photos.length; i++) {
         const offerPhoto = photo[0].cloneNode(true);
         photo[0].remove();
-        offerPhoto.src = getAdSimilar().offer.photos[i];
+        offerPhoto.src = serverData.offer.photos[i];
         photos.appendChild(offerPhoto);
       }
     }
   }
+  return popup;
 };
 
 

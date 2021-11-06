@@ -124,4 +124,4 @@ const setFormValidation = () => {
 };
 
 
-export {setFormValidation};
+export {setFormValidation, addressInput};
