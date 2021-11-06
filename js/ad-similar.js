@@ -12,7 +12,7 @@ const getAdSimilar = function (adSimilar) {
     },
     offer: {
       title: 'Отличный вариант',
-      address: `Адрес: широта/долгота - ${lat} / ${lng}`,
+      address: `${lat  }, ${  lng}`,
       price: getIntegerRandomNumber(2000, 50000),
       type: randomValue(types),
       rooms: getIntegerRandomNumber(1, 5),
@@ -33,11 +33,4 @@ const getAdSimilar = function (adSimilar) {
 };
 
 
-//  Создание массива из 10 сгенерированных JS-объектов
-const serverDatas = [];
-for (let i=0; i<10; i++) {
-  serverDatas.push(getAdSimilar());
-}
-
-
-export {getAdSimilar, serverDatas};
+export {getAdSimilar};
