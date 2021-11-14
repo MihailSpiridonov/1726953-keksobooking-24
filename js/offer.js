@@ -20,22 +20,48 @@ const fillTemplate = (serverData) => {
   price ? price.textContent = `${serverData.offer.price  }₽/ночь` : price.remove();
 
   const type = popup.querySelector('.popup__type');
-  type ? type.textContent = serverData.offer.type : type.remove();
+  if (type) {
+    switch(serverData.offer.type) {
+      case 'bungalow':
+        type.textContent = 'Бунгало';
+        break;
+
+      case 'flat':
+        type.textContent = 'Квартира';
+        break;
+
+      case 'hotel':
+        type.textContent = 'Отель';
+        break;
+
+      case 'house':
+        type.textContent = 'Дом';
+        break;
+
+      case 'palace':
+        type.textContent = 'Дворец';
+        break;
+    }
+  } else {
+    type.remove();
+  }
 
   const capacity = popup.querySelector('.popup__text--capacity');
-  capacity ? capacity.textContent = `${serverData.offer.rooms  } комнаты для ${  serverData.offer.quests  } гостей` : capacity.remove();
+  capacity ? capacity.textContent = `${serverData.offer.rooms  } комнаты для ${  serverData.offer.guests  } гостей` : capacity.remove();
 
   const time = popup.querySelector('.popup__text--time');
   time ? time.textContent = `Заезд после ${  serverData.offer.checkin  }, выезд до ${  serverData.offer.checkout}` : time.remove();
 
   const features = popup.querySelector('.popup__features');
   const featureFragment = document.createDocumentFragment();
-  serverData.offer.features.forEach((dataFeature) => {
-    const feature = features.querySelector(`.popup__feature--${  dataFeature}`);
-    if (feature) {
-      featureFragment.append(feature);
-    }
-  });
+  if (serverData.offer.features) {
+    serverData.offer.features.forEach((dataFeature) => {
+      const feature = features.querySelector(`.popup__feature--${  dataFeature}`);
+      if (feature) {
+        featureFragment.append(feature);
+      }
+    });
+  }
   features.innerHTML = '';
   features.append(featureFragment);
 
@@ -44,7 +70,7 @@ const fillTemplate = (serverData) => {
 
   const photos = popup.querySelector('.popup__photos');
   const photo = popup.querySelectorAll('.popup__photo');
-  if (serverData.offer.photos.length < 1) {
+  if (!serverData.offer.photos) {
     photos.remove();
   } else {
     if (serverData.offer.photos.length === 1) {
@@ -60,6 +86,5 @@ const fillTemplate = (serverData) => {
   }
   return popup;
 };
-
 
 export {fillTemplate};
