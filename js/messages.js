@@ -12,7 +12,7 @@ const success = document.querySelector('#success').content.querySelector('.succe
 
 // Сообщение об ошибке отправки данных
 const error = document.querySelector('#error').content.querySelector('.error');
-const resetMessageError = error.querySelector('error__button');
+const resetMessageError = error.querySelector('.error__button');
 
 
 // Функция закрывающая сообщение об успешной отправки данных на сервер

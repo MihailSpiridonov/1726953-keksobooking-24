@@ -104,8 +104,8 @@ const validateSelectTimeout = () => {
 
 
 // Функция очистки формы
-const resetForm = () => {
-  resetButton.removeAttribute('type');
+const resetForm = (evt) => {
+  evt.preventDefault();
   form.reset();
   validateTypeSelect();
   resetMarker();

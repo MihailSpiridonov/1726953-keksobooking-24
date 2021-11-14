@@ -86,7 +86,7 @@ const sendData = () => {
         }
       })
       .catch(() => {
-        showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+        showMessagesError(error);
       });
   });
 };
