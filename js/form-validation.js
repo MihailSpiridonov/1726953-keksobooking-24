@@ -1,5 +1,5 @@
 import {form} from './page-status.js';
-import {getAdSimilar} from './ad-similar.js';
+import {resetMarker,  setCoordinates} from './map.js';
 
 const titleInput = form.querySelector('.ad-form__title');
 const MIN_TITLE_LENGTH = 30;
@@ -16,10 +16,7 @@ const MIN_HOUSE = '5000';
 const MIN_PALASE = '10000';
 const timeinSelect = form.querySelector('.ad-form__timein');
 const timeoutSelect = form.querySelector('.ad-form__timeout');
-
-
-//Рандомное значение для поля с адресом
-addressInput.value = getAdSimilar().offer.address;
+const resetButton = form.querySelector('.ad-form__reset');
 
 
 // Функция для валидации select "«Количество комнат» и «количество мест»"
@@ -104,6 +101,20 @@ const validateSelectTimein = () => {
 const validateSelectTimeout = () => {
   validateSelectTime(timeoutSelect, timeinSelect);
 };
+
+
+// Функция очистки формы
+const resetForm = (evt) => {
+  evt.preventDefault();
+  form.reset();
+  validateTypeSelect();
+  resetMarker();
+  setCoordinates();
+};
+
+
+// Вызов функции очистки формы
+resetButton.addEventListener('click', resetForm);
 
 
 // Функция валидации формы
