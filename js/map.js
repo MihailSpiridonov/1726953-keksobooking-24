@@ -88,6 +88,8 @@ const addBasicMarker = () => {
   });
 };
 
+// Добавляем слой для маркеров похожих объявлений
+const markerGroup = L.layerGroup();
 
 // Добавляем иконку для похожих объявлений
 const offerPinIcon = L.icon({
@@ -107,4 +109,4 @@ const addMap = () => {
   addBasicMarker();
 };
 
-export {addMap, offerPinIcon, map, addBasicMarker, resetMarker, setCoordinates};
+export {addMap, offerPinIcon, map, markerGroup, addBasicMarker, resetMarker, setCoordinates};

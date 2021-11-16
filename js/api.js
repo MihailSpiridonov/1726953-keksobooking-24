@@ -1,7 +1,8 @@
 import {fillTemplate} from './offer.js';
-import {map, offerPinIcon} from './map.js';
+import {map, markerGroup, offerPinIcon} from './map.js';
 import {form} from './page-status.js';
 import {setFormValidation} from './form-validation.js';
+import {mapFilters, filterHousing, filterPrice, filterRooms, filterGuests, filterFeatures} from './filter.js';
 import {success, error, showMessagesSuccess, showMessagesError} from './messages.js';
 
 
@@ -33,35 +34,44 @@ const showAlert = (message) => {
 
 // Функция для получения данных с сервера
 const getData = () => {
+  markerGroup.clearLayers();
   fetch('https://24.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
     .then((datas) => {
-      datas.slice(0, 10).forEach((data) => {
-        data.offer.address = `${data.location.lat.toFixed(5)  }, ${  data.location.lng.toFixed(5)}`;
-        // Добавляем иконку для похожих объявлений
-        offerPinIcon;
+      datas
+        .slice()
+        .filter(({offer}) => filterHousing(offer) && filterPrice(offer) && filterRooms(offer) && filterGuests(offer) && filterFeatures(offer))
+        .slice(0, 10)
+        .forEach((data) => {
+          data.offer.address = `${data.location.lat.toFixed(5)  }, ${  data.location.lng.toFixed(5)}`;
+          // Добавляем иконку для похожих объявлений
+          offerPinIcon;
 
+          // Добавляем слой для маркеров похожих объявлений
+          markerGroup.addTo(map);
 
-        // Добавляем маркеры похожих объявлений на страницу
-        const addMarker = L.marker(
-          {
-            lat: data.location.lat.toFixed(5),
-            lng: data.location.lng.toFixed(5),
-          },
-          {
-            draggable: false,
-            icon: offerPinIcon,
-          },
-        );
+          // Добавляем маркеры похожих объявлений на страницу
+          const addMarker = L.marker(
+            {
+              lat: data.location.lat.toFixed(5),
+              lng: data.location.lng.toFixed(5),
+            },
+            {
+              draggable: false,
+              icon: offerPinIcon,
+            },
+          );
 
-        addMarker.addTo(map)
-          .bindPopup(fillTemplate(data));
-      });
+          addMarker.addTo(markerGroup)
+            .bindPopup(fillTemplate(data));
+        });
     })
     .catch(() => {
       showAlert('Данные не получены. Попробуйте обновить страницу');
     });
 };
+
+mapFilters.addEventListener('change', getData);
 
 // Функция для отправки данных на сервер
 const sendData = () => {
