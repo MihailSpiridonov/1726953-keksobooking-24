@@ -4,7 +4,7 @@ const housingPrice = mapFilters.querySelector('#housing-price');
 const housingRooms = mapFilters.querySelector('#housing-rooms');
 const housingGuests = mapFilters.querySelector('#housing-guests');
 const featureContainer = mapFilters.querySelector('.map__features');
-const nodes = Array.from(featureContainer.querySelectorAll('.map__checkbox:checked'));
+
 
 // Ограничение для фильтра аренды жилья
 const PriceRange = {
@@ -55,7 +55,7 @@ const filterGuests = ({guests}) => guests === (+housingGuests.value || GUESTS_DE
 
 // Функция проверяет соответствие предложения по удобствам
 const filterFeatures = ({ features }) => {
-
+  const nodes = Array.from(featureContainer.querySelectorAll('.map__checkbox:checked'));
   if (!features && nodes.length > 0) {
     return false;
   }
