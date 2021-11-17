@@ -1,5 +1,9 @@
 import {form} from './page-status.js';
 import {resetMarker, setCoordinates} from './map.js';
+import {removeFormValidation} from './form-validation.js';
+import {filterReset} from './filter.js';
+import {getData} from './api.js';
+import {mapFilters, reduceRequests} from './filter.js';
 
 
 // Основная информация на странице
@@ -12,6 +16,7 @@ const success = document.querySelector('#success').content.querySelector('.succe
 
 // Сообщение об ошибке отправки данных
 const error = document.querySelector('#error').content.querySelector('.error');
+// Кнопка "Попробовать снова" в сообщении об ошибке
 const resetMessageError = error.querySelector('.error__button');
 
 
@@ -22,6 +27,7 @@ const closeMessage = () => {
   resetMarker();
   setCoordinates();
 };
+
 
 // Функция закрывающая сообщение об ошибке отправки данных на сервер
 const closeMessageError = () => {
@@ -42,6 +48,10 @@ const onPopupEscKeydown = (evt) => {
 // Функция для показа сообщения об отправки данных
 const showMessagesSuccess = (message) => {
   body.append(message);
+  removeFormValidation();
+  filterReset();
+  getData();
+  mapFilters.addEventListener('change', reduceRequests);
   message.addEventListener('click', closeMessage);
   document.addEventListener('keydown', onPopupEscKeydown);
 };
@@ -56,4 +66,29 @@ const showMessagesError = (message) => {
 };
 
 
-export {success, error, showMessagesSuccess, showMessagesError};
+// Сообщение об ошибке
+const ALERT_SHOW_TIME = 7000;
+
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 1000;
+  alertContainer.style.position = 'fixed';
+  alertContainer.style.left = 0;
+  alertContainer.style.top = `${45}%`;
+  alertContainer.style.right = 0;
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.color = 'black';
+  alertContainer.style.backgroundColor = 'red';
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+};
+
+export {success, error, showAlert, showMessagesSuccess, showMessagesError};

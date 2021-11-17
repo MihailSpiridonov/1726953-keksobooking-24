@@ -1,3 +1,6 @@
+import {getData} from './api.js';
+import {debounce} from './utils/debounce.js';
+
 const mapFilters = document.querySelector('.map__filters');
 const housingType = mapFilters.querySelector('#housing-type');
 const housingPrice = mapFilters.querySelector('#housing-price');
@@ -26,11 +29,15 @@ const ROOMS_DEFAULT = 0;
 const GUESTS_DEFAULT = 0;
 
 
-// Функция проверяет соответствие предложения по типу жилья
+// Задержка времени для функции debounce()
+const TIMEOUT_DELAY = 500;
+
+
+// Функция проверяет соответствие похожих объявлений по типу жилья
 const filterHousing = ({type}) => type === housingType.value || housingType.value === 'any';
 
 
-// Функция проверяет соответствие предложения по стоимости
+// Функция проверяет соответствие похожих объявлений по стоимости
 const filterPrice = ({price}) => {
   switch(housingPrice.value) {
     case PriceType.LOW:
@@ -45,15 +52,15 @@ const filterPrice = ({price}) => {
 };
 
 
-// Функция проверяет соответствие предложения по количеству комнат
+// Функция проверяет соответствие похожих объявлений по количеству комнат
 const filterRooms = ({rooms}) => rooms === (+housingRooms.value || ROOMS_DEFAULT) || housingRooms.value === 'any';
 
 
-// Функция проверяет соответствие предложения по количеству гостей
+// Функция проверяет соответствие похожих объявлений по количеству гостей
 const filterGuests = ({guests}) => guests === (+housingGuests.value || GUESTS_DEFAULT) || housingGuests.value === 'any';
 
 
-// Функция проверяет соответствие предложения по удобствам
+// Функция проверяет соответствие похожих объявлений по удобствам
 const filterFeatures = ({ features }) => {
   const nodes = Array.from(featureContainer.querySelectorAll('.map__checkbox:checked'));
   if (!features && nodes.length > 0) {
@@ -64,4 +71,23 @@ const filterFeatures = ({ features }) => {
 };
 
 
-export {mapFilters, filterHousing, filterPrice, filterRooms, filterGuests, filterFeatures};
+// Функция проверяет соответствие похожих объявлений по всем параметрам фильтра
+const filterData = ({offer}) => filterHousing(offer) && filterPrice(offer) && filterRooms(offer) && filterGuests(offer) && filterFeatures(offer);
+
+
+// Функция для ограничения числа запросов к серверу
+const reduceRequests = debounce(getData, TIMEOUT_DELAY);
+
+
+// Показ похожих объявлений взависимости от фильтра
+mapFilters.addEventListener('change', reduceRequests);
+
+
+// Функция очистки фильтра
+const filterReset = () => {
+  mapFilters.reset();
+  mapFilters.removeEventListener('change', reduceRequests);
+};
+
+
+export {mapFilters, reduceRequests, filterData, filterReset};

@@ -35,4 +35,5 @@ const activePage = function () {
   mapFeatures.removeAttribute('disabled');
 };
 
+
 export {deActivePage, activePage, form};

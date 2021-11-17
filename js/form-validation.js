@@ -1,5 +1,8 @@
 import {form} from './page-status.js';
 import {resetMarker,  setCoordinates} from './map.js';
+import {filterReset, mapFilters, reduceRequests} from './filter.js';
+import {getData, sendData} from './api.js';
+
 
 const titleInput = form.querySelector('.ad-form__title');
 const MIN_TITLE_LENGTH = 30;
@@ -103,21 +106,7 @@ const validateSelectTimeout = () => {
 };
 
 
-// Функция очистки формы
-const resetForm = (evt) => {
-  evt.preventDefault();
-  form.reset();
-  validateTypeSelect();
-  resetMarker();
-  setCoordinates();
-};
-
-
-// Вызов функции очистки формы
-resetButton.addEventListener('click', resetForm);
-
-
-// Функция валидации формы
+// Функция добавления обработчиков валидации формы
 const setFormValidation = () => {
   // Валидация поля "Заголовок объявления" при вводе данных
   titleInput.addEventListener('input', validateTitleLength);
@@ -135,4 +124,50 @@ const setFormValidation = () => {
 };
 
 
-export {setFormValidation, addressInput};
+// Функция удаления обработчиков валидации формы
+const removeFormValidation = () => {
+  // Валидация поля "Заголовок объявления" при вводе данных
+  titleInput.removeEventListener('input', validateTitleLength);
+
+  // Валидация полей "Количество комнат и количество мест"
+  roomsSelect.removeEventListener('change', validateSelect);
+  guestsSelect.removeEventListener('change', validateSelect);
+
+  // Валидации полей «Тип жилья» и поля «Цена за ночь»
+  typeSelect.removeEventListener('change', validateTypeSelect);
+
+  // Синхронизация полей «Время заезда» и поля «Время выезда»
+  timeinSelect.removeEventListener('change', validateSelectTimein);
+  timeoutSelect.removeEventListener('change', validateSelectTimeout);
+};
+
+
+// Функция очистки формы
+const resetForm = (evt) => {
+  evt.preventDefault();
+  form.reset();
+  filterReset();
+  removeFormValidation();
+  validateTypeSelect();
+  resetMarker();
+  setCoordinates();
+  getData();
+  // Показ похожих объявлений взависимости от фильтра
+  mapFilters.addEventListener('change', reduceRequests);
+  // Добавление обработчиков для валидации формы
+  setFormValidation();
+};
+
+
+// Вызов функции очистки формы
+resetButton.addEventListener('click', resetForm);
+
+
+// Вызов функции для отправки формы
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  sendData();
+});
+
+
+export {setFormValidation, removeFormValidation, resetForm, addressInput};
