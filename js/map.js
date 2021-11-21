@@ -1,23 +1,27 @@
-import {deActivePage, activePage} from './page-status.js';
+import {activateForm} from './page-status.js';
 import {addressInput} from './form-validation.js';
 import {fillTemplate} from './offer.js';
 
 
+const FIVE = 5;
+const LATITUDE_MAP = 35.6805;
+const LONGITUDE_MAP = 139.772;
+const LATITUDE_MARKER = 35.6895;
+const LONGITUDE_MARKER = 139.772;
+const SCALE = 13;
 const map = L.map('map-canvas');
 
 
 // Функция для добавления карты Leaflet на страницу
-const addLeafletMap = () => {
+const addLeafletMap = (activate) => {
 
   // Добавляем интерактивную карту со стартовыми координатами в спец.контейнер
   map
-    .on('load', () => {
-      activePage ();
-    })
+    .on('load', activate)
     .setView({
-      lat: 35.6805,
-      lng: 139.772,
-    }, 13);
+      lat: LATITUDE_MAP,
+      lng: LONGITUDE_MAP,
+    }, SCALE);
 
   // Добавляем слой с картой в Leaflet
   L.tileLayer(
@@ -40,8 +44,8 @@ const mainPinIcon = L.icon({
 // Добавляем основной маркер на страницу
 const marker = L.marker(
   {
-    lat: 35.6895,
-    lng: 139.772,
+    lat: LATITUDE_MARKER,
+    lng: LONGITUDE_MARKER,
   },
   {
     draggable: true,
@@ -59,14 +63,14 @@ const setCoordinates = () => {
 // Возращает маркер на изначальную позицию
 const resetMarker = () => {
   marker.setLatLng({
-    lat: 35.6895,
-    lng: 139.772,
+    lat: LATITUDE_MARKER,
+    lng: LONGITUDE_MARKER,
   });
   map
     .setView({
-      lat: 35.6805,
-      lng: 139.772,
-    }, 13);
+      lat: LATITUDE_MAP,
+      lng: LONGITUDE_MAP,
+    }, SCALE);
 };
 
 
@@ -85,7 +89,7 @@ const addBasicMarker = () => {
   // Получаем координаты основного маркера
   marker.on('move', (evt) => {
     const coordinate = evt.target.getLatLng();
-    addressInput.value = `${coordinate.lat.toFixed(5)  }, ${  coordinate.lng.toFixed(5)}`;
+    addressInput.value = `${coordinate.lat.toFixed(FIVE)  }, ${  coordinate.lng.toFixed(FIVE)}`;
   });
 };
 
@@ -104,7 +108,7 @@ const offerPinIcon = L.icon({
 
 // Функция добавления похожих объявлений на карту
 const showSimilarAds = (data) => {
-  data.offer.address = `${data.location.lat.toFixed(5)  }, ${  data.location.lng.toFixed(5)}`;
+  data.offer.address = `${data.location.lat.toFixed(FIVE)  }, ${  data.location.lng.toFixed(FIVE)}`;
   // Добавляем иконку для похожих объявлений
   offerPinIcon;
 
@@ -114,8 +118,8 @@ const showSimilarAds = (data) => {
   // Добавляем маркеры похожих объявлений на страницу
   const addMarker = L.marker(
     {
-      lat: data.location.lat.toFixed(5),
-      lng: data.location.lng.toFixed(5),
+      lat: data.location.lat.toFixed(FIVE),
+      lng: data.location.lng.toFixed(FIVE),
     },
     {
       draggable: false,
@@ -130,10 +134,8 @@ const showSimilarAds = (data) => {
 
 // Функция для создания карты
 const addMap = () => {
-  //Вызов функции для перевода страницы в неактивное состояние
-  deActivePage ();
   // Функция для добавления карты Leaflet на страницу
-  addLeafletMap();
+  addLeafletMap(activateForm);
   // Функция для создания основного маркера
   addBasicMarker();
 };

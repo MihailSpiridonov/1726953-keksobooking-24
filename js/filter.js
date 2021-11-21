@@ -1,12 +1,23 @@
 import {getData} from './api.js';
 import {debounce} from './utils/debounce.js';
+import {containerForMapFilters} from './page-status.js';
 
-const mapFilters = document.querySelector('.map__filters');
-const housingType = mapFilters.querySelector('#housing-type');
-const housingPrice = mapFilters.querySelector('#housing-price');
-const housingRooms = mapFilters.querySelector('#housing-rooms');
-const housingGuests = mapFilters.querySelector('#housing-guests');
-const featureContainer = mapFilters.querySelector('.map__features');
+
+// Максимальное колличество меток на карте
+const MAX = 10;
+
+// Дефолтное значение полей "число комнат" и "число гостей"
+const ROOMS_DEFAULT = 0;
+const GUESTS_DEFAULT = 0;
+
+// Задержка времени для функции debounce()
+const TIMEOUT_DELAY = 500;
+
+const housingType = containerForMapFilters.querySelector('#housing-type');
+const housingPrice = containerForMapFilters.querySelector('#housing-price');
+const housingRooms = containerForMapFilters.querySelector('#housing-rooms');
+const housingGuests = containerForMapFilters.querySelector('#housing-guests');
+const featureContainer = containerForMapFilters.querySelector('.map__features');
 
 
 // Ограничение для фильтра аренды жилья
@@ -24,21 +35,12 @@ const PriceType = {
 };
 
 
-// Дефолтное значение полей "число комнат" и "число гостей"
-const ROOMS_DEFAULT = 0;
-const GUESTS_DEFAULT = 0;
-
-
-// Задержка времени для функции debounce()
-const TIMEOUT_DELAY = 500;
-
-
 // Функция проверяет соответствие похожих объявлений по типу жилья
-const filterHousing = ({type}) => type === housingType.value || housingType.value === 'any';
+const filtrateHousing = ({type}) => type === housingType.value || housingType.value === 'any';
 
 
 // Функция проверяет соответствие похожих объявлений по стоимости
-const filterPrice = ({price}) => {
+const filtratePrice = ({price}) => {
   switch(housingPrice.value) {
     case PriceType.LOW:
       return price < PriceRange.LOW;
@@ -53,15 +55,15 @@ const filterPrice = ({price}) => {
 
 
 // Функция проверяет соответствие похожих объявлений по количеству комнат
-const filterRooms = ({rooms}) => rooms === (+housingRooms.value || ROOMS_DEFAULT) || housingRooms.value === 'any';
+const filtrateRooms = ({rooms}) => rooms === (+housingRooms.value || ROOMS_DEFAULT) || housingRooms.value === 'any';
 
 
 // Функция проверяет соответствие похожих объявлений по количеству гостей
-const filterGuests = ({guests}) => guests === (+housingGuests.value || GUESTS_DEFAULT) || housingGuests.value === 'any';
+const filtrateGuests = ({guests}) => guests === (+housingGuests.value || GUESTS_DEFAULT) || housingGuests.value === 'any';
 
 
 // Функция проверяет соответствие похожих объявлений по удобствам
-const filterFeatures = ({ features }) => {
+const filtrateFeatures = ({ features }) => {
   const nodes = Array.from(featureContainer.querySelectorAll('.map__checkbox:checked'));
   if (!features && nodes.length > 0) {
     return false;
@@ -72,7 +74,19 @@ const filterFeatures = ({ features }) => {
 
 
 // Функция проверяет соответствие похожих объявлений по всем параметрам фильтра
-const filterData = ({offer}) => filterHousing(offer) && filterPrice(offer) && filterRooms(offer) && filterGuests(offer) && filterFeatures(offer);
+const filtrateData = ({offer}) => filtrateHousing(offer) && filtratePrice(offer) && filtrateRooms(offer) && filtrateGuests(offer) && filtrateFeatures(offer);
+
+
+// Функция, ограничивающая колличество отображаемых меток на карте
+const filterate = (data) => {const newData = [];
+  for (let i=0; i<data.length; i++) {
+    if (filtrateData(data[i])) {
+      newData.push(data[i]);
+      if (newData.length > MAX) {break;}
+    }
+  }
+  return newData;
+};
 
 
 // Функция для ограничения числа запросов к серверу
@@ -80,14 +94,14 @@ const reduceRequests = debounce(getData, TIMEOUT_DELAY);
 
 
 // Показ похожих объявлений взависимости от фильтра
-mapFilters.addEventListener('change', reduceRequests);
+containerForMapFilters.addEventListener('change', reduceRequests);
 
 
 // Функция очистки фильтра
 const filterReset = () => {
-  mapFilters.reset();
-  mapFilters.removeEventListener('change', reduceRequests);
+  containerForMapFilters.reset();
+  containerForMapFilters.removeEventListener('change', reduceRequests);
 };
 
 
-export {mapFilters, reduceRequests, filterData, filterReset};
+export {reduceRequests, filterate, filterReset};

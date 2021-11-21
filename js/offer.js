@@ -68,20 +68,21 @@ const fillTemplate = (serverData) => {
   const description = popup.querySelector('.popup__description');
   description ? description.textContent = serverData.offer.description : description.remove();
 
-  const photos = popup.querySelector('.popup__photos');
-  const photo = popup.querySelectorAll('.popup__photo');
-  if (!serverData.offer.photos) {
-    photos.remove();
+  const containerForPhotos = popup.querySelector('.popup__photos');
+  const photos = popup.querySelectorAll('.popup__photo');
+  const serverPhotos = serverData.offer.photos;
+  if (!serverPhotos) {
+    containerForPhotos.remove();
   } else {
-    if (serverData.offer.photos.length === 1) {
-      photo[0].src = serverData.offer.photos[0];
+    if (serverPhotos.length === 1) {
+      photos[0].src = serverPhotos[0];
     } else {
-      for (let i=0; i<serverData.offer.photos.length; i++) {
-        const offerPhoto = photo[0].cloneNode(true);
-        photo[0].remove();
-        offerPhoto.src = serverData.offer.photos[i];
-        photos.appendChild(offerPhoto);
-      }
+      serverPhotos.forEach((serverPhoto) => {
+        const offerPhoto = photos[0].cloneNode(true);
+        photos[0].remove();
+        offerPhoto.src = serverPhoto;
+        containerForPhotos.appendChild(offerPhoto);
+      });
     }
   }
   return popup;

@@ -1,21 +1,23 @@
 import {markerGroup, showSimilarAds} from './map.js';
-import {form} from './page-status.js';
+import {form, activateFilter} from './page-status.js';
 import {setFormValidation} from './form-validation.js';
-import {filterData} from './filter.js';
+import {filterate} from './filter.js';
 import {success, error, showAlert, showMessagesSuccess, showMessagesError} from './messages.js';
 
 
 // Функция для получения данных с сервера
 const getData = () => {
   markerGroup.clearLayers();
-  fetch('https://24.javascript.pages.academy/keksobooking/data')
+  fetch('https://24.javascript.pages.academy/keksobooking/dat')
     .then((response) => response.json())
-    .then((datas) => {
-      datas
-        .slice()
-        .filter(filterData)
-        .slice(0, 10)
+    .then((data) => data.slice())
+    .then((data) => filterate(data))
+    .then((newData) => {
+      newData
         .forEach(showSimilarAds);
+      if (newData) {
+        activateFilter();
+      }
     })
     .catch(() => {
       showAlert('Данные не получены. Попробуйте обновить страницу');

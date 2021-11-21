@@ -1,22 +1,22 @@
-import {form} from './page-status.js';
+import {form, containerForMapFilters} from './page-status.js';
 import {resetMarker,  setCoordinates} from './map.js';
-import {filterReset, mapFilters, reduceRequests} from './filter.js';
+import {filterReset, reduceRequests} from './filter.js';
 import {getData, sendData} from './api.js';
 
 
-const titleInput = form.querySelector('.ad-form__title');
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
-const priceInput = form.querySelector('.ad-form__price');
-const roomsSelect = form.querySelector('.ad-form__rooms');
-const guestsSelect = form.querySelector('.ad-form__capacity');
-const addressInput = form.querySelector('.ad-form__address');
-const typeSelect = form.querySelector('.ad-form__type');
 const MIN_BUNGALOW = '0';
 const MIN_FLAT = '1000';
 const MIN_HOTEL = '3000';
 const MIN_HOUSE = '5000';
 const MIN_PALASE = '10000';
+const titleInput = form.querySelector('.ad-form__title');
+const priceInput = form.querySelector('.ad-form__price');
+const roomsSelect = form.querySelector('.ad-form__rooms');
+const guestsSelect = form.querySelector('.ad-form__capacity');
+const addressInput = form.querySelector('.ad-form__address');
+const typeSelect = form.querySelector('.ad-form__type');
 const timeinSelect = form.querySelector('.ad-form__timein');
 const timeoutSelect = form.querySelector('.ad-form__timeout');
 const resetButton = form.querySelector('.ad-form__reset');
@@ -153,7 +153,7 @@ const resetForm = (evt) => {
   setCoordinates();
   getData();
   // Показ похожих объявлений взависимости от фильтра
-  mapFilters.addEventListener('change', reduceRequests);
+  containerForMapFilters.addEventListener('change', reduceRequests);
   // Добавление обработчиков для валидации формы
   setFormValidation();
 };
